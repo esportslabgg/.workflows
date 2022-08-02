@@ -54,8 +54,6 @@ jobs:
       env:
         DEPLOY_TOKEN: '${{ secrets.DEPLOY_TOKEN }}'
       if: "${{ env.DEPLOY_TOKEN == '' }}"
-      with:
-        token: '${{ secrets.DEPLOY_TOKEN }}'
     
     # Connect to Azure Container Registry (ACR)
     - uses: azure/docker-login@v1
