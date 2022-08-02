@@ -33,6 +33,8 @@ on:
         required: true
       REGISTRY_PASSWORD:
         required: true
+      AZURE_CREDENTIALS:
+        required: true
       
 
 # Environment variables available to all jobs and steps in this workflow
