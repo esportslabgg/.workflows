@@ -28,7 +28,7 @@ on:
         type: string
     secrets:
       DEPLOY_TOKEN:
-        required: true
+        required: false
       REGISTRY_USERNAME:
         required: true
       REGISTRY_PASSWORD:
@@ -40,10 +40,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout with dependencies
+      uses: actions/checkout@v3
+      env:
+        DEPLOY_TOKEN: '${{ secrets.DEPLOY_TOKEN }}'
+      if: "${{ env.DEPLOY_TOKEN != '' }}"
       with:
         token: '${{ secrets.DEPLOY_TOKEN }}'
         submodules: 'recursive'
+        
+    - name: Checkout without dependencies
+      uses: actions/checkout@v3
+      env:
+        DEPLOY_TOKEN: '${{ secrets.DEPLOY_TOKEN }}'
+      if: "${{ env.DEPLOY_TOKEN == '' }}"
+      with:
+        token: '${{ secrets.DEPLOY_TOKEN }}'
     
     # Connect to Azure Container Registry (ACR)
     - uses: azure/docker-login@v1
