@@ -69,6 +69,8 @@ jobs:
         
     # Container build and push to a Azure Container Registry (ACR)        
     - name: Build and push image
+      env:
+        AZ_REGISTRY_URL: ${{ env.AZ_REGISTRY_URL }}
       run: |
         az acr build -t ${{ env.AZ_REGISTRY_URL }}/${{ env.PACKAGE_NAME }}:${{ env.APP_VERSION }} -r $(echo ${{ env.AZ_REGISTRY_URL }} | cut -d. -f1) -f ${{ env.DOCKERFILE_NAME }} .
    #- run: |
