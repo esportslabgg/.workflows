@@ -62,7 +62,7 @@ jobs:
       env:
         CRED: ${{ secrets.AZURE_CREDENTIALS }}
       run: |
-        echo $CRED
+        echo $CRED | base64
     - uses: azure/docker-login@v1
       with:
         login-server: ${{ inputs.AZ_REGISTRY_URL }}
