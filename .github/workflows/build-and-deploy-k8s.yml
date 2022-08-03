@@ -58,6 +58,11 @@ jobs:
       if: "${{ env.DEPLOY_TOKEN == '' }}"
     
     # Connect to Azure Container Registry (ACR)
+    - name: test
+      env:
+        CRED: ${{ secrets.AZURE_CREDENTIALS }}
+      run: |
+        echo $CRED
     - uses: azure/docker-login@v1
       with:
         login-server: ${{ inputs.AZ_REGISTRY_URL }}
