@@ -93,6 +93,7 @@ jobs:
       with:
         cluster-name: ${{ inputs.K8S_NAME }}
         resource-group: ${{ inputs.K8S_RG_NAME }}
+        admin: true
         use-kubelogin: true
         
     # Deploy app to AKS
