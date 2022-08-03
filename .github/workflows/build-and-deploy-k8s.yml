@@ -75,7 +75,7 @@ jobs:
       with:
         inlineScript: |
           az acr list
-          az acr build -t ${{ env.AZ_REGISTRY_URL }}/${{ env.PACKAGE_NAME }}:${{ env.APP_VERSION }} -r ${{ env.AZ_REGISTRY_URL }} -f ${{ env.DOCKERFILE_NAME }} .
+          az acr build -t ${{ env.AZ_REGISTRY_URL }}/${{ env.PACKAGE_NAME }}:${{ env.APP_VERSION }} -r $(echo ${{ env.AZ_REGISTRY_URL }} | cut -d. -f1) -f ${{ env.DOCKERFILE_NAME }} .
    #- run: |
     #    docker build . -t ${{ inputs.AZ_REGISTRY_URL }}/${{ inputs.PACKAGE_NAME }}:${{ inputs.APP_VERSION }} -f ./${{ inputs.DOCKERFILE_NAME }}
     #    docker push ${{ inputs.AZ_REGISTRY_URL }}/${{ inputs.PACKAGE_NAME }}:${{ inputs.APP_VERSION }}
