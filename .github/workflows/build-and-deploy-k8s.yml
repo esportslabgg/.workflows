@@ -58,20 +58,17 @@ jobs:
       if: "${{ env.DEPLOY_TOKEN == '' }}"
     
     # Connect to Azure Container Registry (ACR)
-    - name: test
-      env:
-        CRED: ${{ secrets.AZURE_CREDENTIALS }}
-      run: |
-        echo $CRED | base64
     - uses: azure/docker-login@v1
       with:
         login-server: ${{ inputs.AZ_REGISTRY_URL }}
         username: ${{ secrets.REGISTRY_USERNAME }} 
         password: ${{ secrets.REGISTRY_PASSWORD }}
+        
     # Set the target Azure Kubernetes Service (AKS) cluster.
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
     - uses: azure/aks-set-context@v2
       with:
         cluster-name: ${{ inputs.K8S_NAME }}
