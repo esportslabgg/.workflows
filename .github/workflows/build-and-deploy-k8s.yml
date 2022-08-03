@@ -35,9 +35,7 @@ on:
         required: true
       AZURE_CREDENTIALS:
         required: true
-      
 
-# Environment variables available to all jobs and steps in this workflow
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -58,11 +56,11 @@ jobs:
       if: "${{ env.DEPLOY_TOKEN == '' }}"
     
     # Connect to Azure Container Registry (ACR)
-    - uses: azure/docker-login@v1
-      with:
-        login-server: ${{ inputs.AZ_REGISTRY_URL }}
-        username: ${{ secrets.REGISTRY_USERNAME }} 
-        password: ${{ secrets.REGISTRY_PASSWORD }}
+    #- uses: azure/docker-login@v1
+    #  with:
+    #    login-server: ${{ inputs.AZ_REGISTRY_URL }}
+    #    username: ${{ secrets.REGISTRY_USERNAME }} 
+    #    password: ${{ secrets.REGISTRY_PASSWORD }}
         
     # Set the target Azure Kubernetes Service (AKS) cluster.
     - uses: azure/login@v1
@@ -70,12 +68,9 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
         
     # Container build and push to a Azure Container Registry (ACR)        
-    - name: Azure CLI script
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          az acr list
-          echo az acr build -t ${{ env.AZ_REGISTRY_URL }}/${{ env.PACKAGE_NAME }}:${{ env.APP_VERSION }} -r $(echo ${{ env.AZ_REGISTRY_URL }} | cut -d. -f1) -f ${{ env.DOCKERFILE_NAME }} .
+    - name: Build and push image
+      run: |
+        az acr build -t ${{ env.AZ_REGISTRY_URL }}/${{ env.PACKAGE_NAME }}:${{ env.APP_VERSION }} -r $(echo ${{ env.AZ_REGISTRY_URL }} | cut -d. -f1) -f ${{ env.DOCKERFILE_NAME }} .
    #- run: |
     #    docker build . -t ${{ inputs.AZ_REGISTRY_URL }}/${{ inputs.PACKAGE_NAME }}:${{ inputs.APP_VERSION }} -f ./${{ inputs.DOCKERFILE_NAME }}
     #    docker push ${{ inputs.AZ_REGISTRY_URL }}/${{ inputs.PACKAGE_NAME }}:${{ inputs.APP_VERSION }}
