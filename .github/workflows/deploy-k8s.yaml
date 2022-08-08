@@ -1,6 +1,9 @@
 on:
   workflow_call:
     inputs:
+      APP_VERSION:
+        required: true
+        type: string
       K8S_OBJECT:
         required: true
         type: string
