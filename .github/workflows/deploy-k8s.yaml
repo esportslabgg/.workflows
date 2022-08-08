@@ -1,0 +1,45 @@
+on:
+  workflow_call:
+    inputs:
+      K8S_OBJECT:
+        required: true
+        type: string
+      K8S_NAME:
+        required: true
+        type: string
+      K8S_RG_NAME:
+        required: true
+        type: string
+      K8S_NAMESPACE:
+        required: true
+        type: string
+      AZ_REGISTRY_URL:
+        required: true
+        type: string
+    secrets:
+      AZURE_CREDENTIALS:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Set up kubelogin for non-interactive login
+      run: |
+        curl -LO https://github.com/Azure/kubelogin/releases/download/v0.0.18/kubelogin-linux-amd64.zip
+        sudo unzip -j kubelogin-linux-amd64.zip -d /usr/local/bin
+        rm -f kubelogin-linux-amd64.zip
+        kubelogin --version
+    - uses: azure/aks-set-context@v2
+      with:
+        cluster-name: ${{ inputs.K8S_NAME }}
+        resource-group: ${{ inputs.K8S_RG_NAME }}
+        admin: true
+        use-kubelogin: true
+        
+    # Deploy app to AKS
+    - run: | #add fallback when object does not exist to build from manifests maybe?
+        kubectl -n ${{ inputs.K8S_NAMESPACE }} get ${{ inputs.K8S_OBJECT }} -oyaml | sed -e "s#\(${{ inputs.AZ_REGISTRY_URL }}/.*:\).*#\1${{ inputs.APP_VERSION }}#ig" | kubectl -n ${{ inputs.K8S_NAMESPACE }} apply -f -
