@@ -30,5 +30,5 @@ jobs:
         az acr import \
            --name $(echo ${{ inputs.AZ_REGISTRY_URL }} | cut -d. -f1) \
            --source ${{ inputs.AZ_REGISTRY_URL }}/${{ inputs.PACKAGE_NAME }}:${{ inputs.EXISTING_TAG }} \
-           --image ${{ inputs.AZ_REGISTRY_URL }}/${{ inputs.PACKAGE_NAME }}:${{ inputs.APP_VERSION }} \
+           --image ${{ inputs.PACKAGE_NAME }}:${{ inputs.APP_VERSION }} \
            --force
