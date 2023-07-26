@@ -32,7 +32,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: Set up kubelogin for non-interactive login
       run: |
-        curl -LO https://github.com/Azure/kubelogin/releases/download/v0.0.18/kubelogin-linux-amd64.zip
+        curl -LO https://github.com/Azure/kubelogin/releases/download/v0.0.31/kubelogin-linux-amd64.zip
         sudo unzip -j kubelogin-linux-amd64.zip -d /usr/local/bin
         rm -f kubelogin-linux-amd64.zip
         kubelogin --version
