@@ -60,5 +60,5 @@ jobs:
     - name: Build from acr run file
       if: "${{ inputs.ACR_RUN_FILE != '' }}"
       run: |
-        az acr run -f ${{ inputs.ACR_RUN_FILE }} -r $(echo ${{ inputs.AZ_REGISTRY_URL }} | cut -d. -f1) --set TAG_NAME=${{ inputs.APP_VERSION }}
+        az acr run -f ${{ inputs.ACR_RUN_FILE }} -r $(echo ${{ inputs.AZ_REGISTRY_URL }} | cut -d. -f1) --set TAG_NAME=${{ inputs.APP_VERSION }} .
         
