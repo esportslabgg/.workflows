@@ -36,7 +36,7 @@ jobs:
         sudo unzip -j kubelogin-linux-amd64.zip -d /usr/local/bin
         rm -f kubelogin-linux-amd64.zip
         kubelogin --version
-    - uses: azure/aks-set-context@v2
+    - uses: azure/aks-set-context@v3
       with:
         cluster-name: ${{ inputs.K8S_NAME }}
         resource-group: ${{ inputs.K8S_RG_NAME }}
