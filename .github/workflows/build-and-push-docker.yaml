@@ -38,7 +38,7 @@ jobs:
         DEPLOY_TOKEN: '${{ secrets.DEPLOY_TOKEN }}'
       if: "${{ env.DEPLOY_TOKEN != '' }}"
       with:
-        token: '${{ secrets.DEPLOY_TOKEN }}'
+        ssh-key: '${{ secrets.DEPLOY_TOKEN }}'
         submodules: 'recursive'
         
     - name: Checkout without dependencies
